@@ -1,0 +1,29 @@
+<view class="container">
+    <view class="content">
+      <text>{{content}}</text>
+    </view>
+
+    <view class="content" hidden='{{flag ? true:false}}'>{{hiddencontent}}
+    </view>
+
+    <view class="content">
+      <text>{{num1}}+{{num2}}={{num1+num2}}</text>
+
+    </view>
+    <view>
+     <text>{{"Helllo" +"  "+ uesr.name}} </text>
+    </view>
+
+    <view wx:if="{{condition}}">ssss</view>
+  
+
+  
+
+
+
+
+
+
+
+
+</view>

@@ -1,0 +1,7 @@
+.content{
+  
+  margin: 20px;
+  padding: 20rpx;
+  border: 1px solid #eee;
+
+}

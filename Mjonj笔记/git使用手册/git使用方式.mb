@@ -1,0 +1,198 @@
+git下载地址 :https://pan.baidu.com/s/1kU5OCOB#list/path=%2Fpub%2Fgit
+
+安装完成后，还需要最后一步设置，在命令行输入：
+
+$ git config --global user.name "Your Name"
+$ git config --global user.email "email@example.com"
+
+注意git config命令的--global参数，用了这个参数，表示你这台机器上所有的Git仓库都会使用这个配置，当然也可以对某个仓库指定不同的用户名和Email地址。
+
+版本库:是个目录，目录里面所有的文件都会被git管理起来，每个文件的修改、删除、Git都能跟踪，以便任何时刻都可以追踪历史，或者在将来某个时刻可以“还原”。
+
+
+创建一个目录 mkdir mjonj
+进入目录 cd mjonj
+
+通过git init命令把这个目录变成Git可以管理的仓库：
+git init
+Initialized empty Git repository in /Users/michael/learngit/.git/
+
+
+文件添加并提交仓库:
+git add readme.txt  把文件添加到仓库
+git commit 告诉Git，把文件提交到仓库：
+
+git commit -m "wrote a readme file"  -m后面输入的是本次提交的说明，可以输入任意内容，当然最好是有意义的，这样你就能从历史记录里方便地找到改动记录。
+
+
+修改了readme.txt 文件
+git status命令看看结果
+        $ git status
+        On branch master
+        Changes not staged for commit:
+        (use "git add <file>..." to update what will be committed)
+        (use "git checkout -- <file>..." to discard changes in working directory)
+
+            modified:   readme.txt
+
+        no changes added to commit (use "git add" and/or "git commit -a")
+        git status命令可以让我们时刻掌握仓库当前的状态，上面的命令输出告诉我们，readme.txt被修改过了，但还没有准备提交的修改。
+
+
+查看修改内容:
+git diff readme.txt  查看上次修改了什么内容，git diff顾名思义就是查看difference
+
+
+版本回退:
+git log 命令显示从最近到最远的提交日志历史
+
+git reset --hard HEAD   回退到上一个版本，HEAD 表示当前版本，上一版本表示HEAD^，上上一个版本就是HEAD^^，上上100个版本就是所以写成HEAD~100
+CMD还未关闭可以撤销回退版本，版本号没必要写全，前几位就可以了，Git会自动去找。当然也不能只写前一两位，因为Git可能会找到多个版本号，就无法确定是哪一个了。
+
+git reset --hard 1094a
+//HEAD is now at 83b0afe append GPL
+
+如果cmd窗口关闭了，第二天想从新回退到某个版本，想不起来版本号
+git reflog用来记录你的每一次命令
+git diff HEAD -- xx.txt命令可以查看工作区和版本库里面最新版本的区别
+git checkout -- file可以丢弃工作区的修改
+
+一种是readme.txt自修改后还没有被放到暂存区，现在，撤销修改就回到和版本库一模一样的状态；
+
+一种是readme.txt已经添加到暂存区后，又作了修改，现在，撤销修改就回到添加到暂存区后的状态。
+
+总之，就是让这个文件回到最近一次git commit或git add时的状态。
+git checkout -- 命令中的--很重要，没有--，就变成了“切换到另一个分支”的命令
+
+如果内容已经修改好了放到了缓存区，可以把暂存区的修改撤销掉（unstage），重新放回工作区：
+git reset HEAD xx.txt
+
+
+删除文件 ：从版本库中删除该文件，那就用命令git rm删掉
+git rm xx.txt
+另一种情况是删错了，因为版本库里还有呢，所以可以很轻松地把误删的文件恢复到最新版本
+git checkout -- xx.txt
+
+
+远程仓库：
+
+    自行注册GitHub账号或者码云。由于你的本地Git仓库和GitHub仓库之间的传输是通过SSH加密的，所以，需要一点设置：
+    第1步：创建SSH Key。在用户主目录下，看看有没有.ssh目录，如果有，再看看这个目录下有没有id_rsa和id_rsa.pub这两个文件，如果已经有了，可直接跳到下一步。如果没有，打开Shell（Windows下打开Git Bash），创建SSH Key：
+    ssh-keygen -t rsa -C "xx@example.com"
+    需要把邮箱换成自己的邮箱，，然后一路回车，使用默认值即可，由于这个Key也不是用于军事目的，所以也无需设置密码。
+
+然后用户主目录里找到.ssh目录，里面有id_rsa和id_rsa.pub两个文件，这两个就是SSH Key的秘钥对，id_rsa是私钥，不能泄露出去，id_rsa.pub是公钥，可以放心地告诉任何人
+    第一步:登陆GitHub，打开“Account settings”，“SSH Keys”页面
+    第二部:点“Add SSH Key”，填上任意Title，在Key文本框里粘贴id_rsa.pub文件的内容
+
+创建一个远程仓库:GitHub告诉我们，可以从这个仓库克隆出新的仓库，也可以把一个已有的本地仓库与之关联，然后，把本地仓库的内容推送到GitHub仓库。
+    git remote add origin git@github.com:xxxxxx/-.git
+    远程库的名字就是origin，这是Git默认的叫法，也可以改成别的
+下一步，就可以把本地库的所有内容推送到远程库上：
+
+
+推送到远程库:
+
+    git push -u origin master
+
+    把本地库的内容推送到远程，用git push命令，实际上是把当前分支master推送到远程。
+    由于远程库是空的，我们第一次推送master分支时，加上了-u参数，Git不但会把本地的master分支内容推送的远程新的master分支，还会把本地的master分支和远程的master分支关联起来，在以后的推送或者拉取时就可以简化命令。
+
+    从现在起，只要本地作了提交，就可以通过命令：
+        git push origin master
+
+
+
+SSH警告
+当你第一次使用Git的clone或者push命令连接GitHub时，会得到一个警告：告诉你已经把GitHub的Key添加到本机的一个信任列表里了
+
+
+
+假设我们从零开发，那么最好的方式是先创建远程库，然后，从远程库克隆。
+首先，登陆GitHub，创建一个新的仓库
+我们勾选Initialize this repository with a README，这样GitHub会自动为我们创建一个README.md文件。创建完毕后，可以看到README.md文件：
+现在，远程库已经准备好了，下一步是用命令git clone克隆一个本地库：
+git clone git@github.com:michaelliao/gitskills.git
+
+
+分支管理:创建了一个属于你自己的分支，别人看不到，还继续在原来的分支上正常工作，而你在自己的分支上干活，想提交就提交，直到开发完毕后，再一次性合并到原来的分支上，这样，既安全，又不影响别人工作
+
+创建dev分支，然后切换到dev  ：    git checkout -b dev
+git checkout命令加上-b参数表示创建并切换，相当于以下两条命令：
+git branch dev
+git checkout dev
+
+查看分支：git branch  列出所有分支，当前分支前面会标一个*号。
+
+git merge命令用于合并指定分支到当前分支。合并后，再查看readme.txt的内容，就可以看到，和dev分支的最新提交是完全一样的。
+
+        注意到上面的Fast-forward信息，Git告诉我们，这次合并是“快进模式”，也就是直接把master指向dev的当前提交，所以合并速度非常快。
+
+        当然，也不是每次合并都能Fast-forward，我们后面会讲其他方式的合并。
+
+git branch -d dev  删除分支
+
+git log --graph  查看分支合并图
+
+查看远程库信息，使用git remote -v，本地新建的分支如果不推送到远程，对其他人就是不可见的；
+从本地推送分支，使用git push origin branch-name，如果推送失败，先用git pull抓取远程的新提交
+在本地创建和远程分支对应的分支，使用git checkout -b branch-name origin/branch-name，本地和远程分支的名称最好一致；
+
+建立本地分支和远程分支的关联，使用git branch --set-upstream branch-name origin/branch-name；
+
+从远程抓取分支，使用git pull，如果有冲突，要先处理冲突。
+
+
+
+标签管理:
+    命令git tag <tagname>用于新建一个标签，默认为HEAD，也可以指定一个commit id
+
+    命令git tag -a <tagname> -m "blablabla..."可以指定标签信息；
+
+    命令git tag可以查看所有标签。
+
+    git log --pretty=oneline --abbrev-commit  历史提交的commit id，然后打标签
+
+    标签不是按时间顺序列出，而是按字母排序的。可以用git show <tagname>查看标签信息：
+    git show v1.x
+
+    如果标签打错了，也可以删除：git tag -d v0.1
+    如果要推送某个标签到远程，使用命令git push origin <tagname>
+    一次性推送全部尚未推送到远程的本地标签  git push origin --tags
+
+    如果标签已经推送到远程，要删除远程标签就麻烦一点，先从本地删除：
+     git tag -d v0.9
+     然后，从远程删除。删除命令也是push，但是格式如下：
+     git push origin :refs/tags/v0.9
+
+
+码云:
+    和GitHub相比，码云也提供免费的Git仓库。此外，还集成了代码质量检测、项目演示等功能。对于团队协作开发，码云还提供了项目管理、代码托管、文档管理的服务，5人以下小团队免费。
+    使用码云和使用GitHub类似，我们在码云上注册账号并登录后，需要先上传自己的SSH公钥。选择右上角用户头像 -> 菜单“修改资料”，然后选择“SSH公钥”，填写一个便于识别的标题，然后把用户主目录下的.ssh/id_rsa.pub文件的内容粘贴进去：
+
+    1、在码云上创建一个新的项目，选择右上角用户头像 -> 菜单“控制面板”，然后点击“创建项目
+    2、们在本地库上使用命令git remote add把它和码云的远程库关联
+    git remote add origin git@gitee.com:xxxxxx/learngit.git
+    如果在使用命令git remote add时报错：这说明本地库已经关联了一个名叫origin的远程库，此时，可以先用git remote -v查看远程库信息：
+    git remote rm origin  删除已有的GitHub远程库： 再关联码云的远程库
+
+    如果要关联码云和Github库的话:
+
+        git remote rm origin   先删除已关联的名为origin的远程库：
+    然后，先关联GitHub的远程库：
+
+        git remote add github git@github.com:17764587974/learngit.git
+    注意，远程库的名称叫github，不叫origin了。
+
+    接着，再关联码云的远程库：
+
+    git remote add gitee git@gitee.com:SquirrelPineal/learngit.git
+    同样注意，远程库的名称叫gitee，不叫origin。
+
+    现在，用git remote -v查看远程库信息，可以看到两个远程库：
+
+    
+    如果要推送到GitHub，使用命令：
+    git push github master
+    如果要推送到码云，使用命令：
+    git push gitee master
