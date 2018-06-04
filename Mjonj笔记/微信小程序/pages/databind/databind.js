@@ -4,16 +4,35 @@ Page({
    * 页面的初始数据
    */
   data: {
+    tampName: function (event) {
+      console.log(event)
+    },
     content:"微信小程序数据绑定",
     hiddencontent:"隐藏的内容",
     flag:true,
+    
     num1:1,
     num2:2,
     condition:true,
     uesr:{
       name:"spark",
       age:18
-    }
+    },
+    users:[
+      {
+        name:"张三",
+        sex: "男",
+        "age":"19"
+              },{
+      name:"lisi",
+      sex: "nv",
+      "age":"1a9"
+              },{
+  name: "ss三",
+  sex: "男",
+  "age": "119"
+}],
+     
   },
 
   /**

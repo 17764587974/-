@@ -11,3 +11,6 @@
     <text class="user-motto">{{motto}}</text>
   </view>
 </view>
+<button id="contents" bindtap="tampName"> Click me! 
+
+</button>

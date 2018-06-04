@@ -3,7 +3,14 @@
 const app = getApp()
 
 Page({
+
+
+  tampName: function (event) {
+    console.log(event)
+  },
   data: {
+    
+    
     motto: 'Hello World',
     userInfo: {},
     hasUserInfo: false,

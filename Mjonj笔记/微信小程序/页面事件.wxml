@@ -1,0 +1,38 @@
+<view>
+冒泡事件，单一个组件事件被触发后，会向父节点传递
+非冒泡事件
+
+touchstart 手指触摸
+touchmove:手指触摸后移动
+touchcancel 手指愁莫动作被打断，比如来电弹窗
+touchend 手指触摸动作结束
+tap 手指触摸后离开
+longtap 手指触摸后，超过350ms离开
+
+
+事件绑定
+
+组件属性 是以bind或者catch开头，加上事件类型字符串，如果作为组件触摸离开动作，可以正价bindtap或者catchtap属性
+
+注意:bind开头的事件绑定不会住址冒泡事件向上冒泡 catch开头的可以
+
+type属性 这是个字符串，表示当前处理事件的是个tap类型事件
+
+timestamp属性，表示打开页面处罚事件所经过的毫秒
+target属性，触发事件的原组件，具有以下属性
+  id：触发事件的组件id
+  dataser 组件上data-开头自定义属性组成的集合
+  offseLeft，offsetTop 当前组件左边系统的偏移量
+  dataset集合使用较多，通过这个集合，可以获取组件中的自定义数据
+  console.log（event.target.dataset.org）
+
+
+  currentTarget 是个对象，表示事件绑定当前组件，属性与target相同
+
+    touches属性
+    这是个数组，用来保存触摸点信息
+      pageX,pageY 距离文档左上角距离，横向X，纵向Y
+      clientX，ClientY  距离页面可显示区域 （屏幕出去导航掉左上角语句，横向x） 
+      screenX，screenY 距离屏幕左上角的距离，左上角为距离，横向为X。
+      detail属性  是个对象，保存特殊事件所携带的数据，比如表单处理用户输入，媒体错误事件携带错误信息
+</view>

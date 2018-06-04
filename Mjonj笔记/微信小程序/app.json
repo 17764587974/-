@@ -1,7 +1,8 @@
 {
   "pages":[
-    "pages/databind/databind",
+    
     "pages/index/index",
+    "pages/databind/databind",
     "pages/logs/logs"
   ],
     "window":{
